@@ -33,5 +33,6 @@ bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_
 sudo apt update && sudo apt upgrade -y
 
 # Final Message
-echo 'Build Done! Tensorflow whl can be found here: /tmp/tensorflow_pkg/tensorflow-version-tags.whl'
+echo 'Build Complete!'
+echo 'Tensorflow whl: /tmp/tensorflow_pkg/tensorflow-*.whl'
 
