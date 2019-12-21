@@ -12,12 +12,12 @@ git checkout r2.0
 
 # Step 3. Install Bazel and dependencies of the given version
 sudo apt purge bazel* -y # Remove Existing bazel
+sudo apt install openjdk-11-jdk -y # Install dependencies via apt
+sudo apt install gcc-7 g++-7 zlib1g-dev -y # Install Specific version of gcc that is supported
 OUTPUT="$(cat configure.py | grep '_TF_MAX_BAZEL_VERSION = ' | cut -c26-31)" # Get the version specified in Tensorflow
 wget https://github.com/bazelbuild/bazel/releases/download/$OUTPUT/bazel_$OUTPUT-linux-x86_64.deb # Download the Given version
 sudo dpkg -i bazel_$OUTPUT-linux-x86_64.deb # Install the downloaded Bazel debian File
 sudo rm -f bazel_$OUTPUT-linux-x86_64.deb # Delete the package because it is already installed
-sudo apt install openjdk-11-jdk -y # Install dependencies via apt
-sduo apt install gcc-7 -y # Install Specific version of gcc that is supported
 pip install --upgrade six numpy wheel setuptools mock keras_applications keras_preprocessing # Install Python dependenceis (Assumes a working conda environment)
 
 # Configure
