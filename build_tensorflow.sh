@@ -11,7 +11,7 @@ cd tensorflow
 git checkout r2.0
 
 # Step 3. Install Bazel and dependencies of the given version
-sudo apt purge bazel* gcc -y # Remove Existing bazel
+sudo apt purge bazel* -y # Remove Existing bazel
 OUTPUT="$(cat configure.py | grep '_TF_MAX_BAZEL_VERSION = ' | cut -c26-31)" # Get the version specified in Tensorflow
 wget https://github.com/bazelbuild/bazel/releases/download/$OUTPUT/bazel_$OUTPUT-linux-x86_64.deb # Download the Given version
 sudo dpkg -i bazel_$OUTPUT-linux-x86_64.deb # Install the downloaded Bazel debian File
