@@ -1,28 +1,32 @@
 # This script is used to get docker for Ubuntu 19.x - Not supported by Docker officially
 
 # Uninstall any existing docker installations
-sudo apt purge docker* containerd runc -y
+sudo apt-get remove docker docker-engine docker.io containerd runc
 
-# Download the Docker Containers from Docker Archive - Update The version as necessary
-wget "https://download.docker.com/linux/ubuntu/dists/disco/pool/stable/amd64/containerd.io_1.2.6-3_amd64.deb"
-wget "https://download.docker.com/linux/ubuntu/dists/disco/pool/stable/amd64/docker-ce-cli_19.03.3~3-0~ubuntu-disco_amd64.deb"
-wget "https://download.docker.com/linux/ubuntu/dists/disco/pool/stable/amd64/docker-ce_19.03.3~3-0~ubuntu-disco_amd64.deb"
+# Install Required Dependencies
+sudo apt-get update
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-# Install the downloaded files through Debian package manager
-sudo dpkg -i "containerd.io_1.2.6-3_amd64.deb"
-sudo dpkg -i "docker-ce-cli_19.03.3~3-0~ubuntu-disco_amd64.deb"
-sudo dpkg -i "docker-ce_19.03.3~3-0~ubuntu-disco_amd64.deb"
+# Get Docker GPG Keys for Ubuntu
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-# Remove the downloaded Files post installation - Cleanup
-sudo rm "containerd.io_1.2.6-3_amd64.deb"
-sudo rm "docker-ce-cli_19.03.3~3-0~ubuntu-disco_amd64.deb"
-sudo rm "docker-ce_19.03.3~3-0~ubuntu-disco_amd64.deb"
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Docker Installation Verification
-sudo docker run hello-world
+# Update Software Indexes
+sudo apt-get update
 
-# Display Docker Version
-sudo docker version
+# Install Docker
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-# Clean up All stopped containers
-sudo docker system prune --all --force
+# Post Installation Steps
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+docker run --rm hello-world
