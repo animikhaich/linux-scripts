@@ -1,4 +1,4 @@
-sudo apt update && sudo apt install -y --upgrade git nano htop wget curl net-tools openssh-server vlc
+sudo apt update && sudo apt install -y --upgrade git nano htop wget curl net-tools openssh-server vlc cmake
 
 # Setup Git
 git config --global user.name "Animikh Aich"
